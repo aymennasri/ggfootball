@@ -1,6 +1,11 @@
 url: http://aymennasri.me/ggfootball/
 template:
-  bootstrap: minty
+  bootstrap: 5
+  bslib:
+    bootswatch: minty
+    base_font: {google: "Rubik"}
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "JetBrains Mono"}
 authors:
   Aymen Nasri:
     href: https://aymennasri.me
