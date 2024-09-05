@@ -30,6 +30,6 @@ Interactive highcharter plot displaying the xG chart of both teams.
 xG chart plotting
 }
 \examples{
-xg_chart(26631, "red", "grey")
+xg_chart(26631, "red", "grey", "#FFF1E5")
 
 }
