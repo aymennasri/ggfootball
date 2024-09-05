@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggfootball <a href="https://aymennasri.me/ggfootball"><img src="inst/figures/logo.png" align="right" height="138" alt="ggfootball site" /></a>
+# ggfootball <img src="inst/figures/logo.png" align="right" height="138"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
