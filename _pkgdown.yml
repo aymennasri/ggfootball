@@ -1,4 +1,7 @@
 url: http://aymennasri.me/ggfootball/
 template:
-  bootstrap: 5
+  bootstrap: minty
+authors:
+  Aymen Nasri:
+    href: https://aymennasri.me
 
