@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-An R package for plotting [understat](understat.com) data; an xG chart and a shot map.
+An R package for plotting [understat](understat.com) data; an xG chart and an xG map.
 
 ## Installation
 
