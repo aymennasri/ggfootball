@@ -3,6 +3,8 @@
 
 # ggfootball <img src="inst/figures/logo.png" align="right" height="138"/>
 
+*It’s Football not Soccer.*
+
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -36,7 +38,7 @@ xg_chart(match_id = 26631,
          background_color = "#FFF1E5")
 
 # Shot/xG map
-xg_map(match_id = 26631, title = "Shot Map")
+xg_map(match_id = 26631, title = "xG Map")
 ```
 
 ## Acknowledgements
