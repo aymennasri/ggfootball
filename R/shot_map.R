@@ -11,11 +11,12 @@
 #' @import ggsoccer
 #' @import ggiraph
 #' @import ggplot2
+#' @import gfonts
 #' @importFrom gdtools register_gfont
 
 shot_map <- function(match_id, title = ""){
   register_gfont("Karla")
-  match <- get_match_shots(match_id) %>%
+  suppressMessages({match <- get_match_shots(match_id) %>%
     select(
       .data$minute, .data$result, .data$X, .data$Y, .data$xG, .data$player,
       .data$h_a, .data$situation, .data$shotType, .data$h_team, .data$a_team,
@@ -101,4 +102,5 @@ shot_map <- function(match_id, title = ""){
            )),
            fonts = list(sans = "Karla")
   )
+  })
 }
