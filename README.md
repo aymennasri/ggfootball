@@ -12,7 +12,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ## Overview
 
 An R package for plotting [understat](understat.com) data; an xG chart
-and a shot map.
+and an xG map.
 
 ## Installation
 
