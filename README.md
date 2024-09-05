@@ -15,7 +15,7 @@ You can install the development version of ggfootball from
 [GitHub](https://github.com/) with:
 
 ``` r
-remotes::install_github("aymennasri/ggfootball")
+pak::pak("aymennasri/ggfootball")
 ```
 
 ## Example
