@@ -45,7 +45,7 @@ xg_chart(match_id = 26631,
          background_color = "#FFF1E5")
 
 # Shot/xG map
-shot_map(match_id = 26631, title = "Shot Map")
+xg_map(match_id = 26631, title = "Shot Map")
 ```
 
 ## Acknowledgements
