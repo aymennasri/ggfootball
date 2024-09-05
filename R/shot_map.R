@@ -17,8 +17,9 @@ shot_map <- function(match_id, title = ""){
   register_gfont("Karla")
   match <- get_match_shots(match_id) %>%
     select(
-      minute, result, X, Y, xG, player, h_a, situation, shotType, h_team,
-      a_team, h_goals, a_goals, date, player_assisted, lastAction
+      .data$minute, .data$result, .data$X, .data$Y, .data$xG, .data$player,
+      .data$h_a, .data$situation, .data$shotType, .data$h_team, .data$a_team,
+      .data$h_goals, .data$a_goals, .data$date, .data$player_assisted, .data$lastAction
     )
 
   match$shotType <- gsub("([a-z])([A-Z])", "\\1 \\2", match$shotType)
@@ -54,10 +55,10 @@ shot_map <- function(match_id, title = ""){
            theme_pitch() +
            geom_point_interactive(
              aes(
-               x = X * 100 , y = Y * 100,
-               fill = factor(result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
-               size = xG,
-               shape = factor(result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
+               x = .data$X * 100 , y = .data$Y * 100,
+               fill = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
+               size = .data$xG,
+               shape = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
                tooltip = glue(
                  "<span>{player} ({minute}')<br>
                         Assisted by {player_assisted}<br>
@@ -88,7 +89,7 @@ shot_map <- function(match_id, title = ""){
            guides(fill = guide_legend(title = "Shot Outcome", nrow = 1, override.aes = list(size = 5, stroke = 1)),
                   shape = guide_legend(title = "Shot Outcome", ncol = 2),
                   size = guide_legend(title = "xG Value", override.aes = list(shape = 21, fill = "gray"))) +
-           facet_wrap_interactive(~ h_a, interactive_on = "both"),
+           facet_wrap_interactive(~ .data$h_a, interactive_on = "both"),
          options = list(
            opts_hover(css = ""),
            opts_hover_inv(css = 'opacity:0.1;'),

@@ -15,15 +15,20 @@
 #' @importFrom understatr get_match_shots
 #' @importFrom glue glue
 #' @importFrom base64enc base64encode
+#' @importFrom utils tail
 
 xg_chart <- function(match_id, home_team_color, away_team_color, competition = "Premier League"){
 
   # Icons from icons8.com
-  goal_path <- "R/assets/goal.png"
-  own_goal_path <- "R/assets/own_goal.png"
+  folder <- system.file("assets", package = "ggfootball")
+  my_files <- list.files(folder, full.names = TRUE)
+  goal_path <- my_files[grep("goal\\.png$", my_files, ignore.case = TRUE)]
+  own_goal_path <- my_files[grep("own_goal\\.png$", my_files, ignore.case = TRUE)]
 
-  goal_icon <- base64encode(readBin(goal_path, "raw", file.size(goal_path)))
-  own_goal_icon <- base64encode(readBin(own_goal_path, "raw", file.size(own_goal_path)))
+  goal_icon <- base64encode(readBin(goal_path[1], "raw", file.info(goal_path[1])$size))
+  own_goal_icon <- base64encode(readBin(own_goal_path[1], "raw", file.info(own_goal_path[1])$size))
+  # goal_icon <- base64encode(readBin(goal_path, "raw", file.size(goal_path)))
+  # own_goal_icon <- base64encode(readBin(own_goal_path, "raw", file.size(own_goal_path)))
 
   match <- get_match_shots(match_id) %>%
     mutate(
@@ -39,14 +44,14 @@ xg_chart <- function(match_id, home_team_color, away_team_color, competition = "
 
   # Prepare data for home and away teams
   home_data <- match %>%
-    filter(h_a == "h") %>%
-    arrange(minute) %>%
-    mutate(cumulativexG = cumsum(xG))
+    filter(.data$h_a == "h") %>%
+    arrange(.data$minute) %>%
+    mutate(cumulativexG = cumsum(.data$xG))
 
   away_data <- match %>%
-    filter(h_a == "a") %>%
-    arrange(minute) %>%
-    mutate(cumulativexG = cumsum(xG))
+    filter(.data$h_a == "a") %>%
+    arrange(.data$minute) %>%
+    mutate(cumulativexG = cumsum(.data$xG))
 
   # Get team names and scores
   home_team <- unique(match$h_team)[1]
@@ -115,7 +120,7 @@ xg_chart <- function(match_id, home_team_color, away_team_color, competition = "
       name = "Home xG",
       color = home_team_color,
       lineWidth = 2,
-      hcaes(x = minute, y = cumulativexG),
+      hcaes(x = .data$minute, y = .data$cumulativexG),
       stickyTracking = FALSE
     ) %>%
     hc_add_series(
@@ -125,17 +130,17 @@ xg_chart <- function(match_id, home_team_color, away_team_color, competition = "
       name = "Away xG",
       color = away_team_color,
       lineWidth = 2,
-      hcaes(x = minute, y = cumulativexG),
+      hcaes(x = .data$minute, y = .data$cumulativexG),
       stickyTracking = FALSE
     ) %>%
     hc_add_series(
-      data = home_data %>% filter(result == "Goal" & h_a == "h"),
+      data = home_data %>% filter(.data$result == "Goal" & .data$h_a == "h"),
       type = "scatter",
       name = "Home Goals",
       color = home_team_color,
       marker = list(radius = 8,
                     symbol = JS(paste0(" 'url(data:image/png;base64,", goal_icon, ")' "))),
-      hcaes(x = minute, y = cumulativexG),
+      hcaes(x = .data$minute, y = .data$cumulativexG),
       stickyTracking = FALSE,
       dataLabels = list(enabled = TRUE,
                         format = "{point.player}<br>({point.minute}')<br>",
@@ -147,13 +152,13 @@ xg_chart <- function(match_id, home_team_color, away_team_color, competition = "
       )
     ) %>%
     hc_add_series(
-      data = away_data %>% filter(result == "Goal" & h_a == "a"),
+      data = away_data %>% filter(.data$result == "Goal" & .data$h_a == "a"),
       type = "scatter",
       name = "Away Goals",
       color = away_team_color,
       marker = list(radius = 8,
                     symbol = JS(paste0(" 'url(data:image/png;base64,", goal_icon, ")' "))),
-      hcaes(x = minute, y = cumulativexG),
+      hcaes(x = .data$minute, y = .data$cumulativexG),
       stickyTracking = FALSE,
       dataLabels = list(enabled = TRUE,
                         format = "{point.player}<br>({point.minute}')<br>",
@@ -167,13 +172,13 @@ xg_chart <- function(match_id, home_team_color, away_team_color, competition = "
     hc_add_series(
       data = away_data %>%
         rbind(home_data) %>%
-        filter(result == "OwnGoal"),
+        filter(.data$result == "OwnGoal"),
       type = "scatter",
       name = "Own Goals",
       color = away_team_color,
       marker = list(radius = 8,
                     symbol = JS(paste0(" 'url(data:image/png;base64,", own_goal_icon, ")' "))),
-      hcaes(x = minute, y = cumulativexG),
+      hcaes(x = .data$minute, y = .data$cumulativexG),
       stickyTracking = FALSE,
       dataLabels = list(enabled = TRUE,
                         format = "{point.player}<br>({point.minute}')<br>",

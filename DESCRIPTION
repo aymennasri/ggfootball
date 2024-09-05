@@ -1,5 +1,5 @@
 Package: ggfootball
-Title: ggfootball : Plotting Football Stats
+Title: Plotting Football Stats
 Version: 0.0.0.9000
 Authors@R: 
     person("Aymen", "Nasri", , "aymennasrii@proton.me", role = c("aut", "cre"))
@@ -17,7 +17,8 @@ Imports:
     ggsoccer,
     glue,
     highcharter,
-    understatr
+    understatr,
+    utils
 Remotes:
     ewenme/understatr
 URL: https://github.com/aymennasri/ggfootball, http://aymennasri.me/ggfootball/

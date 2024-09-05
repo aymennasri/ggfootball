@@ -24,7 +24,10 @@ pak::pak("aymennasri/ggfootball")
 library(ggfootball)
 
 # xG chart
-xg_chart(match_id = 26631, home_team_color = "red", away_team_color = "grey", competition = "Premier League")
+xg_chart(match_id = 26631, 
+         home_team_color = "red", 
+         away_team_color = "grey", 
+         competition = "Premier League")
 
 # Shot/xG map
 shot_map(match_id = 26631, title = "Shot Map")
