@@ -3,6 +3,7 @@
 export(shot_map)
 export(xg_chart)
 import(dplyr)
+import(gfonts)
 import(ggiraph)
 import(ggplot2)
 import(ggsoccer)
