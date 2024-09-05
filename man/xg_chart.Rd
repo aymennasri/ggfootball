@@ -8,7 +8,8 @@ xg_chart(
   match_id,
   home_team_color,
   away_team_color,
-  competition = "Premier League"
+  competition = "Premier League",
+  background_color = "#FFF1E5"
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ xg_chart(
 \item{away_team_color}{Color used for the away team}
 
 \item{competition}{Competition name as a subtitle; defaults to "Premier League"}
+
+\item{background_color}{Chart background color; defaults to "#FFF1E5"}
 }
 \value{
 Interactive highcharter plot displaying the xG chart of both teams.
