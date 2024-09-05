@@ -18,5 +18,7 @@ Imports:
     glue,
     highcharter,
     understatr
+Remotes:
+    ewenme/understatr
 URL: https://github.com/aymennasri/ggfootball, http://aymennasri.me/ggfootball/
 BugReports: https://github.com/aymennasri/ggfootball/issues
