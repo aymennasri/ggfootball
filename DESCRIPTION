@@ -1,0 +1,20 @@
+Package: ggfootball
+Title: ggfootball : Plotting Football Stats
+Version: 0.0.0.9000
+Authors@R: 
+    person("Aymen", "Nasri", , "aymennasrii@proton.me", role = c("aut", "cre"))
+Description: An R package for plotting [understat](understat.com) data; an xG chart and a shot map.
+License: Apache License (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    base64enc,
+    dplyr,
+    gdtools,
+    ggiraph,
+    ggplot2,
+    ggsoccer,
+    glue,
+    highcharter,
+    understatr
