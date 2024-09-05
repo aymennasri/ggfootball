@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggfootball
+# ggfootball <a href="https://aymennasri.me/ggfootball"><img src="inst/figures/logo.png" align="right" height="138" alt="ggfootball site" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -32,3 +32,13 @@ xg_chart(match_id = 26631,
 # Shot/xG map
 shot_map(match_id = 26631, title = "Shot Map")
 ```
+
+## Acknowledgements
+
+- [Ewen Henderson](https://ewen.io/) for his amazing
+  [{understatr}](https://ewenme.github.io/understatr/) package which I
+  used to extract data.
+
+- [Guangchuang YU](https://yulab-smu.top/) for his
+  [{hexSticker}](https://github.com/GuangchuangYu/hexSticker) package
+  which I used to create the logo for this package.
