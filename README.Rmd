@@ -25,7 +25,7 @@ An R package for plotting [understat](understat.com) data; an xG chart and a sho
 You can install the development version of ggfootball from [GitHub](https://github.com/) with:
 
 ``` r
-remotes::install_github("aymennasri/ggfootball")
+pak::pak("aymennasri/ggfootball")
 ```
 
 ## Example
