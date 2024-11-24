@@ -188,7 +188,9 @@ xg_chart <- function(match_id, home_team_color, away_team_color,
                                        fontWeight = "normal"),
                           y = -5)
       ) %>%
-      hc_legend(enabled = TRUE, style = list(fontFamily = "Karla")) %>%
+      hc_legend(enabled = TRUE,
+                itemStyle = list(fontFamily = "Karla", fontWeight = "normal", fontSize = "16px"),
+                style = list(fontFamily = "Karla")) %>%
       hc_credits(
         enabled = TRUE,
         text = "Data: Understat",
