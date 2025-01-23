@@ -13,7 +13,6 @@
 #'
 #' @import highcharter
 #' @import dplyr
-#' @importFrom understatr get_match_shots
 #' @importFrom glue glue
 #' @importFrom base64enc base64encode
 #' @importFrom utils tail

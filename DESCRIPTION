@@ -1,16 +1,16 @@
 Package: ggfootball
-Title: Plotting Football Stats
-Version: 0.0.0.9000
+Title: Plotting Expected Goals (xG) Stats with Understat Data
+Version: 0.1.0
 Authors@R: 
-    person("Aymen", "Nasri", , "aymennasrii@proton.me", role = c("aut", "cre"))
-Description: An R package for plotting [understat](understat.com) data; an xG chart and an xG map.
-License: Apache License (>= 2)
+    person("Aymen", "Nasri", , "aymennasrii@proton.me", role = c("aut", "cre", "cph"))
+Description: Plot Understat Expected Goals (xG) and shots data.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     base64enc,
-    dplyr,
+    dplyr (>= 1.0.0),
     gdtools,
     gfonts,
     ggiraph,
@@ -18,9 +18,13 @@ Imports:
     ggsoccer,
     glue,
     highcharter,
-    understatr,
-    utils
-Remotes:
-    ewenme/understatr
-URL: https://github.com/aymennasri/ggfootball, http://aymennasri.me/ggfootball/
+    utils,
+    rvest,
+    stringi,
+    stringr,
+    qdapRegex,
+    jsonlite,
+    readr,
+    tibble
+URL: http://aymennasri.me/ggfootball/
 BugReports: https://github.com/aymennasri/ggfootball/issues

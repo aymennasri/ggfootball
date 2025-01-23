@@ -6,3 +6,7 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^cran-comments\.md$
+^revdep$
+^ggfootball-manual\.tex$
+^\.Rd2pdf[0-9]+$
