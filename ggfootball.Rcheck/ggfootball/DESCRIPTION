@@ -8,23 +8,13 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports: 
-    base64enc,
-    dplyr (>= 1.0.0),
-    gdtools,
-    gfonts,
-    ggiraph,
-    ggplot2,
-    ggsoccer,
-    glue,
-    highcharter,
-    utils,
-    rvest,
-    stringi,
-    stringr,
-    qdapRegex,
-    jsonlite,
-    readr,
-    tibble
+Imports: base64enc, dplyr (>= 1.0.0), gdtools, gfonts, ggiraph,
+        ggplot2, ggsoccer, glue, highcharter, utils, rvest, stringi,
+        stringr, qdapRegex, jsonlite, readr, tibble
 URL: http://aymennasri.me/ggfootball/
 BugReports: https://github.com/aymennasri/ggfootball/issues
+NeedsCompilation: no
+Packaged: 2025-01-23 16:19:21 UTC; aymen
+Author: Aymen Nasri [aut, cre, cph]
+Maintainer: Aymen Nasri <aymennasrii@proton.me>
+Built: R 4.4.2; ; 2025-01-23 16:28:15 UTC; unix
