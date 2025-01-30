@@ -1,9 +1,11 @@
 Package: ggfootball
-Title: Plotting Expected Goals (xG) Stats with Understat Data
+Title: Plotting Expected Goals (xG) Stats with 'Understat' Data
 Version: 0.1.0
 Authors@R: 
     person("Aymen", "Nasri", , "aymennasrii@proton.me", role = c("aut", "cre", "cph"))
-Description: Plot Understat Expected Goals (xG) and shots data.
+Description: Scrapes shots data from 'Understat' <https://understat.com/> and visualizes it using interactive plots:
+    - A detailed shot map displaying the location, type, and xG value of shots taken by both teams.
+    - An xG timeline chart showing the cumulative xG for each team over time, annotated with the details of scored goals.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
