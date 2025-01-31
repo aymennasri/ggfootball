@@ -1,9 +1,9 @@
-#' Plot shots xG from a football match
+#' Plot shots xG of a football match
 #'
 #' @param match_id Desired match ID from understat.com
 #' @param title Plot title; empty by default
 #'
-#' @return Interactive ggiraph plot displaying both teams shots side by side printed to the Viewer.
+#' @return Interactive ggiraph transparent plot displaying both teams shots side by side printed to the Viewer.
 #' @export
 #'
 #' @examples xg_map(26631, title = "xG Map")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/xg_map.R
 \name{xg_map}
 \alias{xg_map}
-\title{Plot shots xG from a football match}
+\title{Plot shots xG of a football match}
 \usage{
 xg_map(match_id, title = "")
 }
@@ -12,10 +12,10 @@ xg_map(match_id, title = "")
 \item{title}{Plot title; empty by default}
 }
 \value{
-Interactive ggiraph plot displaying both teams shots side by side printed to the Viewer.
+Interactive ggiraph transparent plot displaying both teams shots side by side printed to the Viewer.
 }
 \description{
-Plot shots xG from a football match
+Plot shots xG of a football match
 }
 \examples{
 xg_map(26631, title = "xG Map")
