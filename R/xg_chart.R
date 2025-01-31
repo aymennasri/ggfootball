@@ -1,15 +1,16 @@
-#' xG chart plotting
+#' Plot an xG chart of a football match
 #'
 #' @param match_id Match ID from understat.com
 #' @param home_team_color Color used for the home team
 #' @param away_team_color Color used for the away team
-#' @param competition Competition name as a subtitle; defaults to "Premier League"
-#' @param background_color Chart background color; defaults to "#FFF1E5"
+#' @param competition Competition name as a subtitle; empty by default.
+#' @param bg_color Chart background color; defaults to "#FFF1E5"
+#' @param plot_bg_color Plot background color; defaults to "#FFF1E5"
 #'
 #' @return Interactive highcharter plot displaying the xG chart of both teams.
 #' @export
 #'
-#' @examples xg_chart(26631, "red", "grey", "#FFF1E5")
+#' @examples xg_chart(26631, "red", "grey", competition = "Premier League")
 #'
 #' @import highcharter
 #' @import dplyr
@@ -18,7 +19,7 @@
 #' @importFrom utils tail
 
 xg_chart <- function(match_id, home_team_color, away_team_color,
-                     competition = "Premier League", background_color = "#FFF1E5"){
+                     competition = "", bg_color = "#FFF1E5", plot_bg_color = "#FFF1E5"){
 
   # Icons from icons8.com
   folder <- system.file("assets", package = "ggfootball")
@@ -86,7 +87,7 @@ xg_chart <- function(match_id, home_team_color, away_team_color,
 
     # Create the highchart
     highchart() %>%
-      hc_chart(backgroundColor = background_color) %>%
+      hc_chart(backgroundColor = bg_color, plotBackgroundColor = plot_bg_color) %>%
       hc_title(
         text = glue("<span style='color:{home_team_color}'>{home_team} {match$h_goals[1]}</span>
                 - <span style='color:{away_team_color}'>{match$a_goals[1]} {away_team}</span>"),
