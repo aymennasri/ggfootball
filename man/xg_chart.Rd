@@ -34,5 +34,4 @@ Plot an xG chart of a football match
 }
 \examples{
 xg_chart(26631, "red", "grey", competition = "Premier League")
-
 }

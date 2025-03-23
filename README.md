@@ -9,7 +9,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![](https://cranlogs.r-pkg.org/badges/ggfootball)](https://cran.r-project.org/package=ggfootball)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/ggfootball)](https://cran.r-project.org/package=ggfootball)
+
 <!-- badges: end -->
 
 ## Overview

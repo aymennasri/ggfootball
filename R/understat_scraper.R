@@ -1,13 +1,5 @@
+utils::globalVariables(c(".data"))
 # R/understat_scraper.R, originally from ewenme/understatr
-#' @noRd
-#' @importFrom rvest html_nodes html_text read_html
-#' @importFrom stringi stri_unescape_unicode
-#' @importFrom stringr str_subset
-#' @importFrom qdapRegex rm_square
-#' @importFrom glue glue
-#' @importFrom jsonlite fromJSON
-#' @importFrom readr type_convert
-#' @importFrom tibble as_tibble
 #' @noRd
 
 home_url <- "https://understat.com"
@@ -26,14 +18,8 @@ get_data_element <- function(x, element_name) {
 
 # fix json element for parsing
 fix_json <- function(x) {
-  stringr::str_subset(
-    unlist(
-      qdapRegex::rm_square(
-        x, extract = TRUE, include.markers = TRUE
-      )
-    ),
-    "\\[\\]", negate = TRUE
-  )
+  extracted <- unlist(stringr::str_extract_all(x, "\\[.*?\\]"))
+  stringr::str_subset(extracted, "\\[\\]", negate = TRUE)
 }
 
 # get player name part of html page

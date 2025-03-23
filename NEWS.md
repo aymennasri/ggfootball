@@ -1,3 +1,7 @@
+# ggfootball 0.2.1
+
+-   Reduced dependencies.
+
 # ggfootball 0.2.0
 
 -   **BREAKING**: Changed the name of the `background_color` argument of `xg_chart()` to `bg_color`.
@@ -14,6 +18,6 @@
 
 # ggfootball 0.0.0.9000
 
--   First commit
--   Added function for plotting xG/shots map using 'Understat' data `xg_map()`
--   Added function for plotting xG charts using 'Understat' data `xg_chart()`
+-   First commit.
+-   Added function for plotting xG/shots map using 'Understat' data `xg_map()`.
+-   Added function for plotting xG charts using 'Understat' data `xg_chart()`.
