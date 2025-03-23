@@ -19,5 +19,4 @@ Plot shots xG of a football match
 }
 \examples{
 xg_map(26631, title = "xG Map")
-
 }
