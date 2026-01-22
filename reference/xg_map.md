@@ -26,7 +26,7 @@ side printed to the Viewer.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 xg_map(26631, title = "xG Map")
-#> Error in get_match_shots(match_id): No shot data found for match ID 26631 on Understat.
-#> The match may not have shot data available or the page structure may have changed.
+} # }
 ```

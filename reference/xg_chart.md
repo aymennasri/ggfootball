@@ -48,7 +48,7 @@ Interactive highcharter plot displaying the xG chart of both teams.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 xg_chart(26631, "red", "grey", competition = "Premier League")
-#> Error in get_match_shots(match_id): No shot data found for match ID 26631 on Understat.
-#> The match may not have shot data available or the page structure may have changed.
+} # }
 ```
