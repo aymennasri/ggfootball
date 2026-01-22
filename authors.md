@@ -12,12 +12,12 @@ Source:
 
 Nasri A (2026). *ggfootball: Plotting Football Matches Expected Goals
 (xG) Stats with 'Understat' Data*. R package version 0.2.2,
-<https://aymennasri.me/ggfootball/>.
+<https://aymennasri.github.io/ggfootball/>.
 
     @Manual{,
       title = {ggfootball: Plotting Football Matches Expected Goals (xG) Stats with 'Understat' Data},
       author = {Aymen Nasri},
       year = {2026},
       note = {R package version 0.2.2},
-      url = {https://aymennasri.me/ggfootball/},
+      url = {https://aymennasri.github.io/ggfootball/},
     }
