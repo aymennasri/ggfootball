@@ -6,7 +6,9 @@
 #' @return Interactive ggiraph transparent plot displaying both teams shots side by side printed to the Viewer.
 #' @export
 #' @import gfonts
-#' @examples xg_map(26631, title = "xG Map")
+#' @examples \dontrun{
+#' xg_map(26631, title = "xG Map")
+#' }
 
 xg_map <- function(match_id, title = ""){
   gdtools::register_gfont("Karla")

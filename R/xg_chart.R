@@ -10,7 +10,9 @@
 #' @return Interactive highcharter plot displaying the xG chart of both teams.
 #' @export
 #'
-#' @examples xg_chart(26631, "red", "grey", competition = "Premier League")
+#' @examples \dontrun{
+#' xg_chart(26631, "red", "grey", competition = "Premier League")
+#' }
 
 xg_chart <- function(match_id, home_team_color, away_team_color,
                      competition = "", bg_color = "#FFF1E5", plot_bg_color = "#FFF1E5"){

@@ -33,5 +33,7 @@ Interactive highcharter plot displaying the xG chart of both teams.
 Plot an xG chart of a football match
 }
 \examples{
+\dontrun{
 xg_chart(26631, "red", "grey", competition = "Premier League")
+}
 }
