@@ -45,7 +45,7 @@ xg_map(match_id = 26631, title = "xG Map")
   [{understatr}](https://ewenme.github.io/understatr/) package which I
   used to extract data.
 
-- [Guangchuang YU](https://yulab-smu.top/) for his
+- [Guangchuang YU](https://github.com/GuangchuangYu/) for his
   [{hexSticker}](https://github.com/GuangchuangYu/hexSticker) package
   which I used to create the logo for this package.
 
