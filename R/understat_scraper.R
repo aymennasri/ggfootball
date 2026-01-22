@@ -37,13 +37,57 @@ get_match_shots <- function(match_id) {
   # Build match URL using package's internal home_url
   match_url <- glue::glue("{home_url}/match/{match_id}")
 
-  # Read match page HTML
-  match_page <- rvest::read_html(match_url)
+  # Read match page HTML with error handling
+  match_page <- tryCatch(
+    {
+      rvest::read_html(match_url)
+    },
+    error = function(e) {
+      stop(glue::glue(
+        "Failed to fetch data from Understat for match ID {match_id}.\n",
+        "The website may be unavailable or the match ID may be invalid.\n",
+        "Please verify your internet connection and try again.\n",
+        "Original error: {e$message}"
+      ))
+    }
+  )
+
+  # Verify page loaded correctly
+  page_title <- tryCatch(
+    {
+      rvest::html_text(rvest::html_node(match_page, "title"))
+    },
+    error = function(e) {
+      ""
+    }
+  )
+
+  if (grepl("404|not found|Page Not Found", page_title, ignore.case = TRUE)) {
+    stop(glue::glue(
+      "Match ID {match_id} not found on Understat.\n",
+      "Please verify the match ID is correct and exists on Understat."
+    ))
+  }
 
   # Use internal helper functions
   match_data <- get_script(match_page)
   shots_data <- get_data_element(match_data, "shotsData")
+
+  if (length(shots_data) == 0) {
+    stop(glue::glue(
+      "No shot data found for match ID {match_id} on Understat.\n",
+      "The match may not have shot data available or the page structure may have changed."
+    ))
+  }
+
   shots_data <- fix_json(shots_data)
+
+  if (length(shots_data) == 0) {
+    stop(glue::glue(
+      "Failed to parse shot data for match ID {match_id}.\n",
+      "The Understat page structure may have changed."
+    ))
+  }
 
   # Process JSON data
   shots_data <- lapply(shots_data, jsonlite::fromJSON)
