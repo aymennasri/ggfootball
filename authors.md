@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/aymennasri/ggfootball/blob/v0.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/aymennasri/ggfootball/blob/master/DESCRIPTION)
 
 Nasri A (2026). *ggfootball: Plotting Football Matches Expected Goals
 (xG) Stats with 'Understat' Data*. R package version 0.3.0,
