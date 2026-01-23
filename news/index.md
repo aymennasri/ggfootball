@@ -2,6 +2,8 @@
 
 ## ggfootball 0.2.2
 
+CRAN release: 2026-01-23
+
 - Added graceful error handling for Internet resources per CRAN policy.
 
 ## ggfootball 0.2.1
