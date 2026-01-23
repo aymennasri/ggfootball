@@ -1,22 +1,5 @@
 # Changelog
 
-## ggfootball 0.3.0
-
-- **BREAKING CHANGE**: Migrated Understat scraper from HTML parsing to
-  AJAX API calls. This changes the internal data structure and column
-  names returned by `get_match_shots()`.
-
-- Added gzip decompression handling for compressed responses.
-
-- Added input validation for match_id parameter.
-
-- Fixed type conversion issues for numeric columns (minute, xG, goals,
-  etc.).
-
-- Improved error handling with clearer messages.
-
-- Removed unused dependencies: rvest, stringi, stringr, readr.
-
 ## ggfootball 0.2.2
 
 CRAN release: 2026-01-23
