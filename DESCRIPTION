@@ -9,7 +9,7 @@ Description: Scrapes football match shots data from 'Understat' <https://underst
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     base64enc,
     dplyr (>= 1.0.0),
@@ -20,11 +20,8 @@ Imports:
     ggsoccer,
     glue,
     highcharter,
-    rvest,
-    stringi,
-    stringr,
+    httr,
     jsonlite,
-    readr,
     tibble
 Depends: R (>= 4.1.0)
 URL: https://aymennasri.github.io/ggfootball/

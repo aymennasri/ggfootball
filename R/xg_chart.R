@@ -53,9 +53,24 @@ xg_chart <- function(match_id, home_team_color, away_team_color,
     home_team <- unique(match$h_team)[1]
     away_team <- unique(match$a_team)[1]
 
-    # Get season info
-    season <-  glue::glue("{match$season[1]}/{match$season[1] + 1}")
-    date <- format(match$date[1], "%A, %d %B %Y")
+    # Get goals - handle different column names
+    h_goals <- if ("h_goals" %in% names(match)) {
+      as.numeric(match$h_goals[1])
+    } else {
+      sum(match$result == "Goal" & match$h_a == "h", na.rm = TRUE) +
+        sum(match$result == "OwnGoal" & match$h_a == "a", na.rm = TRUE)
+    }
+    a_goals <- if ("a_goals" %in% names(match)) {
+      as.numeric(match$a_goals[1])
+    } else {
+      sum(match$result == "Goal" & match$h_a == "a", na.rm = TRUE) +
+        sum(match$result == "OwnGoal" & match$h_a == "h", na.rm = TRUE)
+    }
+
+     # Get season info
+    season_start <- as.numeric(match$season[1])
+    season <- glue::glue("{season_start}/{season_start + 1}")
+    date <- format(as.Date(match$date[1]), "%A, %d %B %Y")
 
     # Calculate max values for axis limits
     max_minute <- ifelse(max(match$minute) < 90, 90, max(match$minute))
@@ -67,7 +82,7 @@ xg_chart <- function(match_id, home_team_color, away_team_color,
         last_row <- utils::tail(data, 1)
         data |>
           tibble::add_row(
-            minute = max_minute,
+            minute = as.numeric(max_minute),
             h_a = last_row$h_a,
             h_team = last_row$h_team,
             a_team = last_row$a_team,
@@ -85,8 +100,8 @@ xg_chart <- function(match_id, home_team_color, away_team_color,
     highcharter::highchart() |>
       highcharter::hc_chart(backgroundColor = bg_color, plotBackgroundColor = plot_bg_color) |>
       highcharter::hc_title(
-        text = glue::glue("<span style='color:{home_team_color}'>{home_team} {match$h_goals[1]}</span>
-                - <span style='color:{away_team_color}'>{match$a_goals[1]} {away_team}</span>"),
+        text = glue::glue("<span style='color:{home_team_color}'>{home_team} {h_goals}</span>
+                - <span style='color:{away_team_color}'>{a_goals} {away_team}</span>"),
         style = list(fontSize = "30px", fontFamily = "Karla"),
         align = "left",
         useHTML = TRUE

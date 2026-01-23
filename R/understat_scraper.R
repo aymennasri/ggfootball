@@ -1,101 +1,88 @@
-utils::globalVariables(c(".data"))
+ utils::globalVariables(c(".data"))
 # R/understat_scraper.R, originally from ewenme/understatr
 #' @noRd
 
 home_url <- "https://understat.com"
 
-# scrape helpers ----------------------------------------------------------
+AJAX_HEADERS <- c(
+  "X-Requested-With" = "XMLHttpRequest",
+  "Accept" = "application/json, text/javascript, */*; q=0.01",
+  "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+)
 
-# get script part of html page
-get_script <- function(x) {
-  as.character(rvest::html_nodes(x, "script"))
+request_ajax <- function(endpoint) {
+  url <- glue::glue("{home_url}/{endpoint}")
+
+  response <- httr::GET(url, httr::add_headers(.headers = AJAX_HEADERS), httr::timeout(30))
+
+  if (httr::status_code(response) != 200) {
+    stop(glue::glue("Understat API request failed with status {httr::status_code(response)}.\nURL: {url}"))
+  }
+
+  raw_content <- httr::content(response, as = "raw")
+  if (identical(httr::headers(response)[["content-encoding"]], "gzip") && length(raw_content) > 2 &&
+      raw_content[1] == 0x1f && raw_content[2] == 0x8b) {
+    content <- rawToChar(gzcon(rawConnection(raw_content)))
+  } else {
+    content <- rawToChar(raw_content)
+  }
+
+  jsonlite::fromJSON(content)
 }
 
-# subset data element of html page
-get_data_element <- function(x, element_name) {
-  stringi::stri_unescape_unicode(stringr::str_subset(x, element_name))
-}
+`%||%` <- function(x, y) if (is.null(x)) y else x
 
-# fix json element for parsing
-fix_json <- function(x) {
-  extracted <- unlist(stringr::str_extract_all(x, "\\[.*?\\]"))
-  stringr::str_subset(extracted, "\\[\\]", negate = TRUE)
-}
-
-# get player name part of html page
-get_player_name <- function(x) {
-  player_name <- rvest::html_nodes(x, ".header-wrapper:first-child")
-  trimws(rvest::html_text(player_name))
-}
-
-# R/get_match_shots.R
 #' @noRd
-
-
 get_match_shots <- function(match_id) {
 
-  # Build match URL using package's internal home_url
-  match_url <- glue::glue("{home_url}/match/{match_id}")
+  if (!grepl("^\\d+$", match_id)) {
+    stop("Invalid match_id: must be a numeric string")
+  }
 
-  # Read match page HTML with error handling
-  match_page <- tryCatch(
-    {
-      rvest::read_html(match_url)
-    },
-    error = function(e) {
-      stop(glue::glue(
-        "Failed to fetch data from Understat for match ID {match_id}.\n",
-        "The website may be unavailable or the match ID may be invalid.\n",
-        "Please verify your internet connection and try again.\n",
-        "Original error: {e$message}"
-      ))
-    }
+  match_data <- request_ajax(glue::glue("getMatchData/{match_id}"))
+
+  if (is.null(match_data$shots) || length(match_data$shots) == 0) {
+    stop(glue::glue("No shot data found for match ID {match_id} on Understat."))
+  }
+
+  shots_h <- match_data$shots$h
+  shots_a <- match_data$shots$a
+  shots_h_nrow <- nrow(shots_h %||% data.frame())
+  shots_a_nrow <- nrow(shots_a %||% data.frame())
+
+  if (shots_h_nrow > 0) shots_h$h_a <- "h"
+  if (shots_a_nrow > 0) shots_a$h_a <- "a"
+
+  shots_data <- switch(
+    as.character(c(shots_h_nrow > 0) + 2 * (shots_a_nrow > 0)),
+    "1" = shots_a,
+    "2" = shots_h,
+    "3" = dplyr::bind_rows(shots_h, shots_a),
+    stop("No shot data available")
   )
 
-  # Verify page loaded correctly
-  page_title <- tryCatch(
-    {
-      rvest::html_text(rvest::html_node(match_page, "title"))
-    },
-    error = function(e) {
-      ""
-    }
-  )
-
-  if (grepl("404|not found|Page Not Found", page_title, ignore.case = TRUE)) {
-    stop(glue::glue(
-      "Match ID {match_id} not found on Understat.\n",
-      "Please verify the match ID is correct and exists on Understat."
-    ))
-  }
-
-  # Use internal helper functions
-  match_data <- get_script(match_page)
-  shots_data <- get_data_element(match_data, "shotsData")
-
-  if (length(shots_data) == 0) {
-    stop(glue::glue(
-      "No shot data found for match ID {match_id} on Understat.\n",
-      "The match may not have shot data available or the page structure may have changed."
-    ))
-  }
-
-  shots_data <- fix_json(shots_data)
-
-  if (length(shots_data) == 0) {
-    stop(glue::glue(
-      "Failed to parse shot data for match ID {match_id}.\n",
-      "The Understat page structure may have changed."
-    ))
-  }
-
-  # Process JSON data
-  shots_data <- lapply(shots_data, jsonlite::fromJSON)
-  shots_data <- do.call("rbind", shots_data)
-
-  # Add match ID and clean data
   shots_data$match_id <- match_id
-  shots_data <- readr::type_convert(shots_data)
+
+  shots_h_data <- match_data$shots$h
+  if (!"h_team" %in% names(shots_data) && "h_team" %in% names(shots_h_data)) {
+    shots_data$h_team <- shots_h_data$h_team[1]
+  }
+  if (!"a_team" %in% names(shots_data) && "a_team" %in% names(shots_h_data)) {
+    shots_data$a_team <- shots_h_data$a_team[1]
+  }
+  if (!"h_goals" %in% names(shots_data) && "h_goals" %in% names(shots_h_data)) {
+    shots_data$h_goals <- shots_h_data$h_goals[1]
+  }
+   if (!"a_goals" %in% names(shots_data) && "a_goals" %in% names(shots_h_data)) {
+    shots_data$a_goals <- shots_h_data$a_goals[1]
+  }
+
+  numeric_cols <- c("minute", "X", "Y", "xG", "h_goals", "a_goals")
+  for (col in numeric_cols) {
+    if (col %in% names(shots_data)) {
+      shots_data[[col]] <- as.numeric(shots_data[[col]])
+    }
+  }
 
   tibble::as_tibble(shots_data)
 }

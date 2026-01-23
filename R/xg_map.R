@@ -13,25 +13,59 @@
 xg_map <- function(match_id, title = ""){
   gdtools::register_gfont("Karla")
   suppressMessages({
-    match <- get_match_shots(match_id) |>
-      dplyr::select(
-        .data$minute, .data$result, .data$X, .data$Y, .data$xG, .data$player,
-        .data$h_a, .data$situation, .data$shotType, .data$h_team, .data$a_team,
-        .data$h_goals, .data$a_goals, .data$date, .data$player_assisted, .data$lastAction
-      )
+    match_data <- get_match_shots(match_id)
 
-    match$shotType <- gsub("([a-z])([A-Z])", "\\1 \\2", match$shotType)
-    match$result <- gsub("([a-z])([A-Z])", "\\1 \\2", match$result)
-    match$result <- dplyr::case_when(match$result == "Missed Shots" ~ "Missed Shot",
-                                     TRUE ~ match$result)
+    # Select available columns with fallbacks
+    available_cols <- c(
+      "minute", "result", "X", "Y", "xG", "player",
+      "h_a", "situation", "shotType", "h_team", "a_team",
+      "h_goals", "a_goals", "date", "player_assisted", "lastAction"
+    )
 
+    # Keep only columns that exist
+    cols_to_keep <- available_cols[available_cols %in% names(match_data)]
+    match <- dplyr::select(match_data, dplyr::all_of(cols_to_keep))
+
+    # Handle missing columns with defaults
+    if (!"player_assisted" %in% names(match)) {
+      match$player_assisted <- NA_character_
+    }
+    if (!"lastAction" %in% names(match)) {
+      match$lastAction <- NA_character_
+    }
+    if (!"situation" %in% names(match)) {
+      match$situation <- NA_character_
+    }
+    if (!"shotType" %in% names(match)) {
+      match$shotType <- NA_character_
+    }
+
+    # Clean up shot type and result
+    match$shotType <- ifelse(is.na(match$shotType), "Unknown",
+                      gsub("([a-z])([A-Z])", "\\1 \\2", match$shotType))
+    match$result <- ifelse(is.na(match$result), "Unknown",
+                  gsub("([a-z])([A-Z])", "\\1 \\2", match$result))
+    match$result <- dplyr::case_when(
+      match$result == "Missed Shots" ~ "Missed Shot",
+      match$result == "MissedShot" ~ "Missed Shot",
+      match$result == "SavedShot" ~ "Saved Shot",
+      match$result == "BlockedShot" ~ "Blocked Shot",
+      match$result == "ShotOnPost" ~ "Shot On Post",
+      match$result == "OwnGoal" ~ "Own Goal",
+      TRUE ~ match$result
+    )
+
+    # Fix X coordinate for own goals
     match$X <- ifelse(match$result == "Own Goal" & match$xG < 0.1,
                       1 - match$X,
                       match$X)
 
-    match$h_a <- dplyr::case_when(match$h_a == "h" ~ glue::glue("{match$h_team}"),
-                                  match$h_a == "a" ~ glue::glue("{match$a_team}"),
-                                  TRUE ~ match$h_a)
+    # Convert h_a to team names
+    match$h_a <- dplyr::case_when(
+      match$h_a == "h" ~ as.character(match$h_team[1]),
+      match$h_a == "a" ~ as.character(match$a_team[1]),
+      TRUE ~ match$h_a
+    )
 
     result_colors <- c(
       "Goal" = "#4CBB17",
@@ -39,13 +73,15 @@ xg_map <- function(match_id, title = ""){
       "Shot On Post" = "#FFA500",
       "Blocked Shot" = "#FF0000",
       "Missed Shot" = "#C0C0C0",
-      "Own Goal" = "red4"
+      "Own Goal" = "red4",
+      "Unknown" = "#808080"
     )
 
     result_shapes <- c(
       "Goal" = 21, "Missed Shot" = 22,
       "Blocked Shot" = 24, "Saved Shot" = 23,
-      "Shot On Post" = 25, "Own Goal" = 19
+      "Shot On Post" = 25, "Own Goal" = 19,
+      "Unknown" = 21
     )
 
     ggiraph::girafe(ggobj = ggplot2::ggplot(match) +
@@ -54,9 +90,9 @@ xg_map <- function(match_id, title = ""){
                       ggiraph::geom_point_interactive(
                         ggplot2::aes(
                           x = .data$X * 100 , y = .data$Y * 100,
-                          fill = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
+                          fill = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot", "Unknown")),
                           size = .data$xG,
-                          shape = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot")),
+                          shape = factor(.data$result, levels = c("Goal", "Own Goal", "Saved Shot", "Shot On Post", "Blocked Shot", "Missed Shot", "Unknown")),
                           tooltip = glue::glue(
                             "<span>{player} ({minute}')<br>
                         Assisted by {player_assisted}<br>
