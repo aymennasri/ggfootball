@@ -6,7 +6,7 @@
 #' @return Interactive ggiraph transparent plot displaying both teams shots side by side printed to the Viewer.
 #' @export
 #' @import gfonts
-#' @examples \dontrun{
+#' @examples \donttest{
 #' xg_map(26631, title = "xG Map")
 #' }
 

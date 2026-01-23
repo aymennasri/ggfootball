@@ -18,7 +18,7 @@ Interactive ggiraph transparent plot displaying both teams shots side by side pr
 Plot shots xG of a football match
 }
 \examples{
-\dontrun{
+\donttest{
 xg_map(26631, title = "xG Map")
 }
 }

@@ -10,7 +10,7 @@
 #' @return Interactive highcharter plot displaying the xG chart of both teams.
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples \donttest{
 #' xg_chart(26631, "red", "grey", competition = "Premier League")
 #' }
 
